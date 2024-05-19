@@ -5,16 +5,16 @@ const auth = async (req, res, next) => {
   try {
     const authHeader = req.header('Authorization');
     if (!authHeader) {
-      return res.status(401).json({ error: "Autenticação é requerida" });
+      return res.status(401).json({ description: "Autenticação é requerida" });
     }
     const decoded = jwt.verify(authHeader, 'secretKey');
     const user = await User.findOne(Number(decoded.id));
     if (!user) {
-      return res.status(401).json({ error: "Usuário não encontrado" });
+      return res.status(401).json({ description: "Usuário não encontrado" });
     }
     next();
   } catch (error) {
-    res.status(401).json({ error: "As credenciais fornecidas pelo usuário são inexistentes ou inválidas" });
+    res.status(401).json({ description: "As credenciais fornecidas pelo usuário são inexistentes ou inválidas" });
   }
 };
 
