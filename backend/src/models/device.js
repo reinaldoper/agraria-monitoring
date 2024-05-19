@@ -65,11 +65,15 @@ async function findDeviceByIdentifier(identifier) {
 async function getAllDevices() {
   return prisma.device.findMany({
     include: {
-      commands: {
-        include: {
-          parameters: true,
-        },
-      },
+      identifier: true,
+    },
+  });
+}
+
+async function getDeviceById(id) {
+  return prisma.device.findUnique({
+    where: {
+      id,
     },
   });
 }
@@ -79,5 +83,6 @@ module.exports = {
   findDeviceByIdentifier,
   getAllDevices,
   deleteDevice,
-  updateDevice
+  updateDevice,
+  getDeviceById
 };

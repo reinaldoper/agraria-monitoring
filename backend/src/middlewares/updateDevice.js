@@ -22,7 +22,7 @@ const validateDevice = (req, res, next) => {
     deviceSchema.parse(req.body);
     next();
   } catch (err) {
-    res.status(400).json({ error: err.errors[0].message });
+    res.status(401).json({ description: "A solicitação não foi realizada pelo proprietário do dispositivo" });
   }
 };
 

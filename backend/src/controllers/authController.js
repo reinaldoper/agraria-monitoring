@@ -15,10 +15,10 @@ exports.register = async (req, res) => {
       Id: newUser.id,
       Username: newUser.username,
     }
-    res.status(201).json({ message: userCreated, token: token });
+    res.status(201).json({ description: userCreated, token: token });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error registering user');
+    res.status(500).json({ description: 'Erro de servidor' });
   }
 };
 
@@ -27,11 +27,11 @@ exports.login = async (req, res) => {
   try {
     const userLogin = await userModel.findUserByUsername(username); 
     if (!userLogin) {
-      return res.status(401).json({ error: 'Invalid username' });
+      return res.status(401).json({ description: 'Nome inválido' });
     }
     const passwordMatch = await bcrypt.compare(password, userLogin.password);
     if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid password' });
+      return res.status(401).json({ description: 'Senha inválida' });
     }
     const user = {
       Id: userLogin.id,
@@ -40,6 +40,6 @@ exports.login = async (req, res) => {
     res.status(200).json({ message: user });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Error logging in' });
+    res.status(500).json({ description: 'Erro de servidor' });
   }
 };
