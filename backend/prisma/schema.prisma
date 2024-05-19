@@ -27,8 +27,8 @@ model Device {
   manufacturer String
   url          String
   userId       Int?
-  user         User?    @relation(fields: [userId], references: [id])
-  commands     Command[]
+  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  commands     Command[] 
 }
 
 model Command {
@@ -37,8 +37,8 @@ model Command {
   description  String
   command      String
   deviceId     Int
-  device       Device   @relation(fields: [deviceId], references: [id])
-  parameters   Parameter[]
+  device       Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  parameters   Parameter[] 
   result       String
   format       String
 }
@@ -48,5 +48,5 @@ model Parameter {
   name        String
   description String
   commandId   Int
-  command     Command  @relation(fields: [commandId], references: [id])
+  command     Command  @relation(fields: [commandId], references: [id], onDelete: Cascade)
 }

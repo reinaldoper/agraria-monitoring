@@ -35,6 +35,24 @@ async function createDevice(identifier, description, manufacturer, url, userId, 
   return device;
 }
 
+async function deleteDevice(id) {
+  await prisma.device.delete({
+    where: {
+      id,
+    },
+  });
+}
+
+async function updateDevice(id, data) {
+  const device = await prisma.device.update({
+    where: {
+      id,
+    },
+    data,
+  });
+  return device;
+}
+
 async function findDeviceByIdentifier(identifier) {
   const device = await prisma.device.findUnique({
     where: {
@@ -60,4 +78,6 @@ module.exports = {
   createDevice,
   findDeviceByIdentifier,
   getAllDevices,
+  deleteDevice,
+  updateDevice
 };
