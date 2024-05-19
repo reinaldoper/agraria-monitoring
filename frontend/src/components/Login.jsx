@@ -6,11 +6,11 @@ const Login = () => {
     <div className="login">
       <h2>Login</h2>
       <form>
-        <input type="text" placeholder="Username" />
-        <input type="password" placeholder="Password" />
+        <input type="text" placeholder="Nome" />
+        <input type="password" placeholder="Senha" />
         <button>Login</button>
       </form>
-      <p>Do you not have an account? <Link to="/register">Register</Link></p>
+      <p>Ainda não tem uma conta? <Link to="/register">Registrar</Link></p>
     </div>
   )
 }
