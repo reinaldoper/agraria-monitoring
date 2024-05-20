@@ -1,0 +1,15 @@
+.content-header{
+  display: flex;
+  margin-top: 0;
+  justify-content: space-between;
+  align-items: center;
+  background-color: aliceblue;
+  color: black;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: medium;
+}
+
+.content-header h2{
+  margin-left: 10vw;
+}

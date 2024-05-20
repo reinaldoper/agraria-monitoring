@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/auth', authRoutes);
+app.use('/', authRoutes);
 app.use('/devices', deviceRoutes);
 app.use('/commands', commandRoutes);
 

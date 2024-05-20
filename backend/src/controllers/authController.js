@@ -11,14 +11,9 @@ exports.register = async (req, res) => {
 
     const token = jwt.sign({ id: newUser.id }, 'secretKey');
 
-    const userCreated = {
-      Id: newUser.id,
-      Username: newUser.username,
-    }
-    res.status(201).json({ description: userCreated, token: token });
+    res.status(201).json({ description: 'Requisição realizada com sucesso', token: token });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ description: 'Erro de servidor' });
+    res.status(500).json({ description: 'Usuário inválido' });
   }
 };
 
@@ -37,9 +32,8 @@ exports.login = async (req, res) => {
       Id: userLogin.id,
       Username: userLogin.username,
     }
-    res.status(200).json({ message: user });
+    res.status(200).json({ description: 'Requisição realizada com sucesso', user: user });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ description: 'Erro de servidor' });
+    res.status(404).json({ description: 'Usuário inválido' });
   }
 };
