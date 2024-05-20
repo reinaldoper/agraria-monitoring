@@ -44,6 +44,7 @@ Aplicação web para monitoramento de dispositivos IoT em tempo real, com autent
 3. Rode o docker compose
    
    ```shell
+   cd backend
    docker compose up
    ```
 
