@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchUsers } from '../service/fetchApi';
 import '../styles/DeviceForm.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const UpdateDevice = () => {
   const [identifier, setIdentifier] = useState('');
@@ -12,6 +12,7 @@ const UpdateDevice = () => {
   const [commands, setCommands] = useState([]);
   const [log, setLog] = useState(false);
 
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const UpdateDevice = () => {
       const options = {
         method: 'GET',
         headers: header,
-      }
+      };
       const { device } = await fetchUsers(`device/${Number(id)}`, options);
       if (device) {
         setLog(true);
@@ -34,24 +35,22 @@ const UpdateDevice = () => {
         setUrl(device.url);
         setCommands(device.commands.map(cmd => ({
           ...cmd,
-          command: {
-            command: cmd.command,
-            parameters: cmd.parameters.map(param => ({ ...param }))
-          }
+          parameters: cmd.parameters.map(param => ({ ...param }))
         })));
       }
-
-    }
+    };
     getDeviceById();
   }, [id]);
 
   const handleAddCommand = () => {
     setCommands([...commands, {
+      id: null,
       operation: '',
       description: '',
-      command: { command: '', parameters: [{ name: '', description: '' }] },
+      command: '',
       result: '',
-      format: ''
+      format: '',
+      parameters: [{ id: null, name: '', description: '', commandId: null }]
     }]);
   };
 
@@ -61,44 +60,52 @@ const UpdateDevice = () => {
     setCommands(newCommands);
   };
 
-  const handleCommandDetailsChange = (index, field, value) => {
-    const newCommands = [...commands];
-    newCommands[index].command[field] = value;
-    setCommands(newCommands);
-  };
-
   const handleParameterChange = (commandIndex, paramIndex, field, value) => {
     const newCommands = [...commands];
-    newCommands[commandIndex].command.parameters[paramIndex][field] = value;
+    newCommands[commandIndex].parameters[paramIndex][field] = value;
     setCommands(newCommands);
   };
 
   const handleAddParameter = (commandIndex) => {
     const newCommands = [...commands];
-    newCommands[commandIndex].command.parameters.push({ name: '', description: '' });
+    newCommands[commandIndex].parameters.push({ id: null, name: '', description: '', commandId: null });
     setCommands(newCommands);
+  };
+
+  const validateCommands = () => {
+    return commands.every(command => 
+      command.operation && command.description && command.command && command.result && command.format &&
+      command.parameters.every(param => param.name && param.description)
+    );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateCommands()) {
+      setMsg('Todos os campos devem ser preenchidos.');
+      return;
+    }
+
     const deviceData = {
+      id: Number(id),
       identifier,
       description,
       manufacturer,
       url,
-      commands
+      commands: commands.filter(command => command.operation && command.description && command.command && command.result && command.format)
     };
+
     const token = JSON.parse(localStorage.getItem('token'));
     const header = {
       'Content-Type': 'application/json',
       'Authorization': token,
     };
     const options = {
-      method: 'POST',
+      method: 'PUT',
       headers: header,
       body: JSON.stringify(deviceData)
-    }
-    const result = await fetchUsers('device', options);
+    };
+    const result = await fetchUsers(`device/${Number(id)}`, options);
     if (result.description === 'Requisição realizada com sucesso') {
       setIdentifier('');
       setDescription('');
@@ -106,6 +113,7 @@ const UpdateDevice = () => {
       setUrl('');
       setCommands([]);
       setMsg(result.description);
+      navigate('/dashboard');
     } else {
       setMsg(result.description);
     }
@@ -156,8 +164,8 @@ const UpdateDevice = () => {
               Command:
               <input
                 type="text"
-                value={command.command.command}
-                onChange={(e) => handleCommandDetailsChange(commandIndex, 'command', e.target.value)}
+                value={command.command}
+                onChange={(e) => handleCommandChange(commandIndex, 'command', e.target.value)}
               />
             </label>
             <label>
@@ -177,7 +185,7 @@ const UpdateDevice = () => {
               />
             </label>
 
-            {command.command.parameters.map((param, paramIndex) => (
+            {command.parameters.map((param, paramIndex) => (
               <div key={paramIndex} className="parameter-section">
                 <h4>Parameter {paramIndex + 1}</h4>
                 <label>
@@ -207,9 +215,7 @@ const UpdateDevice = () => {
         <button type="submit">Registrar Device</button>
       </form> : <h2 className='loading'>Carregando...</h2>}
     </>
-
   );
 };
-
 
 export default UpdateDevice;

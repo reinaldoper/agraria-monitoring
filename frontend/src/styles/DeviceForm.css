@@ -51,6 +51,7 @@
 
 .command-section h3, .parameter-section h4 {
   margin-top: 0;
+  color: #28a745;
 }
 
 .command-section label, .parameter-section label {

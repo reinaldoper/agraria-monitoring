@@ -12,9 +12,9 @@ const DeviceForm = () => {
     operation: '',
     description: '',
     command: '',
-    parameters: [{ name: '', description: '' }],
     result: '',
-    format: ''
+    format: '',
+    parameters: [{ name: '', description: '' }],
   }]);
 
   const handleAddCommand = () => {
@@ -22,9 +22,9 @@ const DeviceForm = () => {
       operation: '',
       description: '',
       command: '',
-      parameters: [{ name: '', description: '' }],
       result: '',
-      format: ''
+      format: '',
+      parameters: [{ name: '', description: '' }],
     }]);
   };
 
@@ -46,21 +46,26 @@ const DeviceForm = () => {
     setCommands(newCommands);
   };
 
+  const validateCommands = () => {
+    return commands.every(command => 
+      command.operation && command.description && command.command && command.result && command.format &&
+      command.parameters.every(param => param.name && param.description)
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateCommands()) {
+      setMsg('Todos os campos dos comandos e parâmetros devem ser preenchidos.');
+      return;
+    }
+
     const deviceData = {
       identifier,
       description,
       manufacturer,
       url,
-      commands: commands.map(command => ({
-        operation: command.operation,
-        description: command.description,
-        command: command.command,
-        result: command.result,
-        format: command.format,
-        parameters: command.parameters
-      }))
+      commands: commands.filter(command => command.operation && command.description && command.command && command.result && command.format)
     };
 
     const token = JSON.parse(localStorage.getItem('token'));
@@ -84,9 +89,9 @@ const DeviceForm = () => {
         operation: '',
         description: '',
         command: '',
-        parameters: [{ name: '', description: '' }],
         result: '',
-        format: ''
+        format: '',
+        parameters: [{ name: '', description: '' }],
       }]);
       setMsg(result.description);
     } else {

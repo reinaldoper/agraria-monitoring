@@ -55,17 +55,10 @@ exports.updateDevice = async (req, res) => {
 };
 
 exports.addDevice = async (req, res) => {
-  const { identifier, description, manufacturer, url, userId, commands } = req.body;
+  const { identifier, description, manufacturer, url, commands } = req.body;
   try {
-    if (!userId) {
-      const { id } = req.user;
-      userId = Number(id);
-      const newDevice = await device.createDevice(identifier, description, manufacturer, url, userId, commands);
-      res.status(201).json({ description: "Requisição realizada com sucesso", message: newDevice });
-    } else {
-      const newDevice = await device.createDevice(identifier, description, manufacturer, url, userId, commands);
-      res.status(201).json({ description: "Requisição realizada com sucesso", message: newDevice });
-    }
+    const newDevice = await device.createDevice(identifier, description, manufacturer, url, commands);
+    res.status(201).json({ description: "Requisição realizada com sucesso", message: newDevice });
 
   } catch (error) {
     console.error(error);

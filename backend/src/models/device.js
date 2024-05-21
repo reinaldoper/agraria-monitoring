@@ -1,23 +1,22 @@
 const prisma = require('../db/prismaCliente');
 const { findOne } = require('./user');
 
-async function createDevice(identifier, description, manufacturer, url, userId, commands) {
+async function createDevice(identifier, description, manufacturer, url, commands) {
   const device = await prisma.device.create({
     data: {
       identifier,
       description,
       manufacturer,
       url,
-      userId,
       commands: {
         create: commands.map(cmd => ({
           operation: cmd.operation,
           description: cmd.description,
-          command: cmd.command.command,
+          command: cmd.command,
           result: cmd.result,
           format: cmd.format,
           parameters: {
-            create: cmd.command.parameters.map(param => ({
+            create: cmd.parameters.map(param => ({
               name: param.name,
               description: param.description,
             })),
@@ -45,14 +44,61 @@ async function deleteDevice(id) {
 }
 
 async function updateDevice(id, data) {
-  const device = await prisma.device.update({
+  const { identifier, description, manufacturer, url, userId, commands } = data;
+  const updatedDevice = await prisma.device.update({
     where: {
       id,
     },
-    data,
+    data: {
+      identifier,
+      description,
+      manufacturer,
+      url,
+      userId,
+      commands: {
+        upsert: commands.map(cmd => ({
+          where: { id: cmd.id || 0 }, 
+          update: {
+            operation: cmd.operation,
+            description: cmd.description,
+            command: cmd.command,
+            result: cmd.result,
+            format: cmd.format,
+            parameters: {
+              upsert: cmd.parameters.map(param => ({
+                where: { id: param.id || 0 }, 
+                update: {
+                  name: param.name,
+                  description: param.description,
+                },
+                create: {
+                  name: param.name,
+                  description: param.description,
+                }
+              })),
+            },
+          },
+          create: {
+            operation: cmd.operation,
+            description: cmd.description,
+            command: cmd.command,
+            result: cmd.result,
+            format: cmd.format,
+            parameters: {
+              create: cmd.parameters.map(param => ({
+                name: param.name,
+                description: param.description,
+              })),
+            },
+          }
+        })),
+      },
+    },
   });
-  return device;
+
+  return updatedDevice;
 }
+
 
 async function findDeviceByIdentifier(identifier) {
   const device = await prisma.device.findUnique({
