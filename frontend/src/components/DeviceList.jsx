@@ -18,7 +18,7 @@ const DeviceList = ({ devices }) => {
       method: 'GET',
       headers: header,
     }
-    const { message } = await fetchUsers(`device/${identifier}`, options);
+    const { message } = await fetchUsers(`device/identifier/${identifier}`, options);
     if(message){
       const header1 = {
         'Content-Type': 'application/json',
