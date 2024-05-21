@@ -51,6 +51,7 @@ Aplicação web para monitoramento de dispositivos IoT em tempo real, com autent
 4. Atualize as migrações do Banco de dados
 
    ```shell
+   npx prisma migrate dev
    npx prisma migrate deploy
    ```
 

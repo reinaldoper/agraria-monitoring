@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
 import { fetchUsers } from '../service/fetchApi';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const DeviceList = ({ devices }) => {
   const [deviceList, setDeviceList] = useState(devices);
   const [msg, setMsg] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setDeviceList(devices);
@@ -41,18 +44,36 @@ const DeviceList = ({ devices }) => {
     }
   };
 
+  const handleUpdate = async (identifier) => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const header = {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+
+    const options = {
+      method: 'GET',
+      headers: header,
+    };
+    const { message } = await fetchUsers(`device/identifier/${identifier}`, options);
+    if (message) {
+      navigate(`/device/${message.id}`);
+    }
+  };
+
   return (
     <div className="device-list">
       <h3>Devices</h3>
       {msg && <p>{msg}</p>}
-      <ul>
+      {DeviceList.length ? <ul>
         {deviceList.map((device, index) => (
           <li key={index}>
             Identifier: {device}
-            <button type="button" onClick={() => handleIdentifier(device)}>Remover</button>
+            <button className='edit-device' type="button" onClick={() => handleUpdate(device)}>Editar</button>
+            <button type="button" className='remove-device' onClick={() => handleIdentifier(device)}>Remover</button>
           </li>
         ))}
-      </ul>
+      </ul> : <p>Carregando...</p>}
     </div>
   );
 };

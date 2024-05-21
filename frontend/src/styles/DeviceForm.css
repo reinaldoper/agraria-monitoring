@@ -23,6 +23,13 @@
   color: #28a745;
 }
 
+.loading{
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  color: #28a745;
+}
+
 .device-form label input {
   width: 100%;
   padding: 8px;

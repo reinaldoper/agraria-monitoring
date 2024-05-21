@@ -20,9 +20,37 @@
   color: black;
   padding: 10px;
   border-radius: 5px;
+  position: relative;
 }
 
-.device-list button {
+.remove-device {
   font-weight: bold;
   background-color: crimson;
+  cursor: pointer;
+}
+
+.edit-device{
+  position: absolute;
+  margin-left: 600px;
+  background-color: chartreuse;
+  color: black;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .edit-device {
+    margin-left: 400px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .edit-device {
+    margin-left: 350px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .edit-device {
+    margin-left: 250px;
+  }
 }

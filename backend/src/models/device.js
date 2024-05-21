@@ -77,6 +77,13 @@ async function getDeviceById(id) {
     where: {
       id,
     },
+    include: {
+      commands: {
+        include: {
+          parameters: true,
+        },
+      },
+    },
   });
 }
 
