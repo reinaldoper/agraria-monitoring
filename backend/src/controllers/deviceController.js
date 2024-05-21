@@ -24,7 +24,7 @@ exports.deleteDevice = async (req, res) => {
 exports.getDeviceByIdentify = async (req, res) => {
   try {
     const { identifier } = req.params;
-    const deviceIdentifier = device.findDeviceByIdentifier(identifier);
+    const deviceIdentifier = await device.findDeviceByIdentifier(identifier);
     res.status(200).json({ description: "Requisição realizada com sucesso", message: deviceIdentifier });
   } catch (error) {
     console.error(error);
@@ -61,10 +61,10 @@ exports.addDevice = async (req, res) => {
       const { id } = req.user;
       userId = Number(id);
       const newDevice = await device.createDevice(identifier, description, manufacturer, url, userId, commands);
-      res.status(201).json({ description: "Requisição realizada com sucesso", newDevice });
+      res.status(201).json({ description: "Requisição realizada com sucesso", message: newDevice });
     } else {
       const newDevice = await device.createDevice(identifier, description, manufacturer, url, userId, commands);
-      res.status(201).json({ description: "Requisição realizada com sucesso", newDevice });
+      res.status(201).json({ description: "Requisição realizada com sucesso", message: newDevice });
     }
 
   } catch (error) {

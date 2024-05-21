@@ -13,9 +13,16 @@
 }
 
 .device-list li {
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: aliceblue;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
 }
 
-.device-list strong {
+.device-list button {
   font-weight: bold;
+  background-color: crimson;
 }
