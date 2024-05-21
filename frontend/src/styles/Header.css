@@ -2,6 +2,7 @@
   display: flex;
   margin-top: 0;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   background-color: aliceblue;
   color: black;
@@ -12,4 +13,12 @@
 
 .content-header h2{
   margin-left: 10vw;
+}
+
+.content-header a{
+  text-decoration: none;
+  color: whitesmoke;
+  background-color: black;
+  padding: 10px;
+  border-radius: 5px;
 }

@@ -1,4 +1,5 @@
-const prisma = require('../db/prismaCliente')
+const prisma = require('../db/prismaCliente');
+const { findOne } = require('./user');
 
 async function createDevice(identifier, description, manufacturer, url, userId, commands) {
   const device = await prisma.device.create({
@@ -39,8 +40,8 @@ async function deleteDevice(id) {
   await prisma.device.delete({
     where: {
       id,
-    },
-  });
+    }
+  })
 }
 
 async function updateDevice(id, data) {
@@ -63,11 +64,12 @@ async function findDeviceByIdentifier(identifier) {
 }
 
 async function getAllDevices() {
-  return prisma.device.findMany({
-    include: {
+  const devices = await prisma.device.findMany({
+    select: {
       identifier: true,
     },
   });
+  return devices.map(device => device.identifier);
 }
 
 async function getDeviceById(id) {

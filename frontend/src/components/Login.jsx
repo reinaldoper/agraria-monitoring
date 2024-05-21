@@ -14,10 +14,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const token = JSON.parse(localStorage.getItem('token'));
     const header = {
       'Content-Type': 'application/json',
-      'Authorization': token
     }
 
     const options = {
@@ -28,13 +26,14 @@ const Login = () => {
         password: password,
       })
     }
-    const { description, user } = await fetchUsers('login', options);
+    const { description, token, user } = await fetchUsers('login', options);
     if(description !== 'Requisição realizada com sucesso') {
       setLogin(true);
       setDescription(description);
     } else {
       localStorage.setItem('user', JSON.stringify(user));
-      navigate('/app');
+      localStorage.setItem('token', JSON.stringify(token));
+      navigate('/dashboard');
     }
   }
 

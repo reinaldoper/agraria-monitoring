@@ -26,12 +26,11 @@ const Register = () => {
         password: password,
       })
     }
-    const { description, token } = await fetchUsers('register', options);
+    const { description } = await fetchUsers('register', options);
     if(description !== 'Requisição realizada com sucesso') {
       setRegister(true);
       setDescription(description);
     } else {
-      localStorage.setItem('token', JSON.stringify(token));
       navigate('/');
     }
   }

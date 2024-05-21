@@ -10,5 +10,6 @@ router.post('/', auth, deviceMiddleware, deviceController.addDevice);
 router.put('/:id', auth, validateId, deviceMiddleware, deviceController.updateDevice);
 router.delete('/:id', auth, validateId, deviceController.deleteDevice);
 router.get('/:id', auth, validateId, deviceController.getDeviceById);
+router.get('/:identifier', auth, deviceController.getDeviceByIdentify)
 
 module.exports = router;

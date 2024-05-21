@@ -1,7 +1,8 @@
-import App from '../pages/App';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LogiIn from '../pages/LogiIn';
 import Registered from '../pages/Registered';
+import DashBoard from '../pages/DashBoard';
+import CreateDevice from "../pages/CreateDevice";
 
 const Routers = () => {
   return (
@@ -9,9 +10,9 @@ const Routers = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LogiIn />}></Route>
-          <Route path="/app" element={<App />}></Route>
-          <Route path="/register" element={<Registered />}>
-          </Route>
+          <Route path="/register" element={<Registered />}></Route>
+          <Route path="/dashboard" element={<DashBoard />}></Route>
+          <Route path="/device" element={<CreateDevice />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

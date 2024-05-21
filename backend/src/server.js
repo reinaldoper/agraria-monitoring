@@ -13,7 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/', authRoutes);
-app.use('/devices', deviceRoutes);
+app.use('/device', deviceRoutes);
 app.use('/commands', commandRoutes);
 
 module.exports = app;

@@ -12,6 +12,7 @@ const auth = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({ description: "Usuário não encontrado" });
     }
+    req.user = user;
     next();
   } catch (error) {
     res.status(401).json({ description: "As credenciais fornecidas pelo usuário são inexistentes ou inválidas" });

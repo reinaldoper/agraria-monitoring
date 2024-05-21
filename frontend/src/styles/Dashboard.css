@@ -1,0 +1,21 @@
+.dashboard {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.device-list {
+  margin-top: 20px;
+}
+
+.device-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.device-list li {
+  margin-bottom: 10px;
+}
+
+.device-list strong {
+  font-weight: bold;
+}

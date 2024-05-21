@@ -48,7 +48,13 @@ Aplicação web para monitoramento de dispositivos IoT em tempo real, com autent
    docker compose up
    ```
 
-4. Configure o Frontend
+4. Atualize as migrações do Banco de dados
+
+   ```shell
+   npx prisma migrate deploy
+   ```
+
+5. Configure o Frontend
 
     ```shell
     cd frontend
