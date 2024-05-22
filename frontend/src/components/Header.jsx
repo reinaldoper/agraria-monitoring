@@ -11,13 +11,13 @@ const Header = () => {
   
   return (
     <>
-      <h1 className="content-header">
+      <div className="content-header">
         <h2>Monitoramento Agrária </h2>
         <Link to="/">Login</Link>
         <Link to="/device">Device</Link>
         <Link to="/dashboard">DashBoard</Link>
         <span>{user ? `Bem vindo: ${user.Username}` : ''}</span>
-      </h1>
+      </div>
     </>
   )
 }

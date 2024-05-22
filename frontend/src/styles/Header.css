@@ -7,8 +7,10 @@
   background-color: aliceblue;
   color: black;
   margin-bottom: 20px;
+  width: 100%;
   padding: 10px;
   font-size: medium;
+ 
 }
 
 .content-header h2{

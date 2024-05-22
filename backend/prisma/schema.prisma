@@ -17,36 +17,39 @@ model User {
   id       Int      @id @default(autoincrement())
   username String   @unique
   password String
-  devices  Device[]
 }
 
 model Device {
-  id           Int      @id @default(autoincrement())
-  identifier   String   @unique
+  id           Int                  @id @default(autoincrement())
+  identifier   String               @unique
   description  String
   manufacturer String
   url          String
-  userId       Int?
-  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  commands     Command[] 
+  commands     CommandDescription[]
 }
 
 model Command {
-  id           Int      @id @default(autoincrement())
-  operation    String
-  description  String
-  command      String
-  deviceId     Int
-  device       Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  parameters   Parameter[] 
-  result       String
-  format       String
+  id                 Int                 @id @default(autoincrement())
+  command            String
+  parameters         Parameter[]
+  commandDescription CommandDescription?
+}
+
+model CommandDescription {
+  id          Int     @id @default(autoincrement())
+  operation   String
+  description String
+  command     Command @relation(fields: [commandId], references: [id])
+  result      String
+  format      String
+  Device      Device? @relation(fields: [deviceId], references: [id])
+  deviceId    Int?
+  commandId   Int     @unique
 }
 
 model Parameter {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String
-  commandId   Int
-  command     Command  @relation(fields: [commandId], references: [id], onDelete: Cascade)
+  command     Command[]
 }

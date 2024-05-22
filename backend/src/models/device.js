@@ -12,22 +12,30 @@ async function createDevice(identifier, description, manufacturer, url, commands
         create: commands.map(cmd => ({
           operation: cmd.operation,
           description: cmd.description,
-          command: cmd.command,
+          command: {
+            create: {
+              command: cmd.command.command,
+              parameters: {
+                create: cmd.command.parameters.map(param => ({
+                  name: param.name,
+                  description: param.description,
+                })),
+              },
+            }
+          },
           result: cmd.result,
           format: cmd.format,
-          parameters: {
-            create: cmd.parameters.map(param => ({
-              name: param.name,
-              description: param.description,
-            })),
-          },
         })),
       },
     },
     include: {
       commands: {
         include: {
-          parameters: true,
+          command: {
+            include: {
+              parameters: true
+            }
+          }
         },
       },
     },
@@ -44,67 +52,76 @@ async function deleteDevice(id) {
 }
 
 async function updateDevice(id, data) {
-  const { identifier, description, manufacturer, url, userId, commands } = data;
-  const updatedDevice = await prisma.device.update({
+  const device = await prisma.device.update({
     where: {
       id,
     },
     data: {
-      identifier,
-      description,
-      manufacturer,
-      url,
-      userId,
+      identifier: data.identifier,
+      description: data.description,
+      manufacturer: data.manufacturer,
+      url: data.url,
       commands: {
-        upsert: commands.map(cmd => ({
-          where: { id: cmd.id || 0 }, 
-          update: {
-            operation: cmd.operation,
-            description: cmd.description,
-            command: cmd.command,
-            result: cmd.result,
-            format: cmd.format,
-            parameters: {
-              upsert: cmd.parameters.map(param => ({
-                where: { id: param.id || 0 }, 
-                update: {
-                  name: param.name,
-                  description: param.description,
-                },
-                create: {
-                  name: param.name,
-                  description: param.description,
+        deleteMany: {},
+        create: data.commands.map(command => {
+          return {
+            operation: command.operation,
+            description: command.description,
+            command: {
+              create: {
+                command: command.command.command,
+                parameters: {
+                  create: command.command.parameters
                 }
-              })),
+              }
             },
-          },
-          create: {
-            operation: cmd.operation,
-            description: cmd.description,
-            command: cmd.command,
-            result: cmd.result,
-            format: cmd.format,
-            parameters: {
-              create: cmd.parameters.map(param => ({
-                name: param.name,
-                description: param.description,
-              })),
-            },
+            result: command.result,
+            format: command.format
+          };
+        })
+      }
+    },
+    include: {
+      commands: {
+        include: {
+          command: {
+            include: {
+              parameters: true
+            }
           }
-        })),
+        },
       },
     },
   });
-
-  return updatedDevice;
+  return device;
 }
-
 
 async function findDeviceByIdentifier(identifier) {
   const device = await prisma.device.findUnique({
     where: {
       identifier,
     },
+    include: {
+      commands: {
+        select: {
+          operation: true,
+          description: true,
+          command: {
+            select: {
+              command: true,
+              parameters: {
+                select: {
+                  name: true,
+                  description: true
+                }
+              },
+            },
+          },
+          format: true,
+          result: true,
+        }
+      }
+    }
   });
   return device;
 }
@@ -125,11 +142,25 @@ async function getDeviceById(id) {
     },
     include: {
       commands: {
-        include: {
-          parameters: true,
-        },
-      },
-    },
+        select: {
+          operation: true,
+          description: true,
+          command: {
+            select: {
+              command: true,
+              parameters: {
+                select: {
+                  name: true,
+                  description: true
+                }
+              },
+            },
+          },
+          format: true,
+          result: true,
+        }
+      }
+    }
   });
 }
 

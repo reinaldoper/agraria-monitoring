@@ -62,4 +62,5 @@ Aplicação web para monitoramento de dispositivos IoT em tempo real, com autent
     npm install
     npm run dev
     ```
+6. Configure o .env conforme o .env.example
 

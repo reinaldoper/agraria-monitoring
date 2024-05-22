@@ -1,8 +1,8 @@
 const { z } = require('zod');
 
 const userSchema = z.object({
-  username: z.string().min(3, "Nome de usuário deve ser maior que 3"),
-  password: z.string().min(6, "Senha deve ser maior que 6"),
+  username: z.string().min(3, "Nome de usuário deve ser maior que 3 caracteres"),
+  password: z.string().min(6, "Senha deve ser maior que 6 caracteres"),
 });
 
 

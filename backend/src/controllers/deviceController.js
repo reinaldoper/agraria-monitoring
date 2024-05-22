@@ -3,10 +3,9 @@ const device = require('../models/device')
 exports.getDevices = async (req, res) => {
   try {
     const devices = await device.getAllDevices();
-    res.status(200).json({ description: "Requisição executada com sucesso", devices: devices });
+    res.status(200).json(devices);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ description: "Erro de servidor" });
+    res.status(500).json({ description: `Erro de servidor: ${error.message}` });
   }
 };
 
@@ -27,7 +26,6 @@ exports.getDeviceByIdentify = async (req, res) => {
     const deviceIdentifier = await device.findDeviceByIdentifier(identifier);
     res.status(200).json({ description: "Requisição realizada com sucesso", message: deviceIdentifier });
   } catch (error) {
-    console.error(error);
     res.status(404).json({ description: 'Dispositivo não encontrado' });
   }
 };
@@ -36,20 +34,21 @@ exports.getDeviceById = async (req, res) => {
   try {
     const { id } = req.params;
     const deviceById = await device.getDeviceById(Number(id));
-    res.status(200).json({ description: "Requisição realizada com sucesso", device: deviceById });
+
+    if(!deviceById) throw new Error('Dispositivo não encontrado')
+
+    res.status(200).json(deviceById);
   } catch (error) {
-    console.error(error);
-    res.status(404).json({ description: "Dispositivo não encontrado" });
+    res.status(404).json({ description: error.message});
   }
 };
 
 exports.updateDevice = async (req, res) => {
   const { id } = req.params;
   try {
-    const updatedDevice = await device.updateDevice(Number(id), req.body);
-    res.status(200).json({ description: "Requisição realizada com sucesso", updatedDevice });
+    const result = await device.updateDevice(Number(id), req.body);
+    res.status(200).json(result);
   } catch (error) {
-    console.error(error);
     res.status(404).json({ description: 'Dispositivo não encontrado' });
   }
 };
@@ -57,11 +56,12 @@ exports.updateDevice = async (req, res) => {
 exports.addDevice = async (req, res) => {
   const { identifier, description, manufacturer, url, commands } = req.body;
   try {
-    const newDevice = await device.createDevice(identifier, description, manufacturer, url, commands);
-    res.status(201).json({ description: "Requisição realizada com sucesso", message: newDevice });
+    const resultDevice = await device.createDevice(identifier, description, manufacturer, url, commands);
+    res.set("Location", `/device/${resultDevice.id}`)
+    res.status(201).send();
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ description: "Erro de servidor" });
+    res.status(500).json({ description: `Erro de servidor: ${error.message}` });
   }
 };

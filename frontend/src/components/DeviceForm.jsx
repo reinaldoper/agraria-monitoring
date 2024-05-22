@@ -11,45 +11,53 @@ const DeviceForm = () => {
   const [commands, setCommands] = useState([{
     operation: '',
     description: '',
-    command: '',
+    command: {
+      command: '',
+      parameters: [{ name: '', description: '' }]
+    },
     result: '',
     format: '',
-    parameters: [{ name: '', description: '' }],
   }]);
 
   const handleAddCommand = () => {
     setCommands([...commands, {
       operation: '',
       description: '',
-      command: '',
+      command: {
+        command: '',
+        parameters: [{ name: '', description: '' }]
+      },
       result: '',
       format: '',
-      parameters: [{ name: '', description: '' }],
     }]);
   };
 
   const handleCommandChange = (index, field, value) => {
     const newCommands = [...commands];
-    newCommands[index][field] = value;
+    if (field === 'command') {
+      newCommands[index].command.command = value;
+    } else {
+      newCommands[index][field] = value;
+    }
     setCommands(newCommands);
   };
 
   const handleParameterChange = (commandIndex, paramIndex, field, value) => {
     const newCommands = [...commands];
-    newCommands[commandIndex].parameters[paramIndex][field] = value;
+    newCommands[commandIndex].command.parameters[paramIndex][field] = value;
     setCommands(newCommands);
   };
 
   const handleAddParameter = (commandIndex) => {
     const newCommands = [...commands];
-    newCommands[commandIndex].parameters.push({ name: '', description: '' });
+    newCommands[commandIndex].command.parameters.push({ name: '', description: '' });
     setCommands(newCommands);
   };
 
   const validateCommands = () => {
-    return commands.every(command => 
-      command.operation && command.description && command.command && command.result && command.format &&
-      command.parameters.every(param => param.name && param.description)
+    return commands.every(command =>
+      command.operation && command.description && command.command.command && command.result && command.format &&
+      command.command.parameters.every(param => param.name && param.description)
     );
   };
 
@@ -65,22 +73,21 @@ const DeviceForm = () => {
       description,
       manufacturer,
       url,
-      commands: commands.filter(command => command.operation && command.description && command.command && command.result && command.format)
+      commands: commands.filter(command =>
+        command.operation && command.description && command.command.command && command.result && command.format)
     };
 
-    const token = JSON.parse(localStorage.getItem('token'));
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token,
       },
       body: JSON.stringify(deviceData)
     };
 
     const result = await fetchUsers('device', options);
 
-    if (result.description === 'Requisição realizada com sucesso') {
+    if (!result.description) {
       setIdentifier('');
       setDescription('');
       setManufacturer('');
@@ -88,12 +95,14 @@ const DeviceForm = () => {
       setCommands([{
         operation: '',
         description: '',
-        command: '',
+        command: {
+          command: '',
+          parameters: [{ name: '', description: '' }]
+        },
         result: '',
         format: '',
-        parameters: [{ name: '', description: '' }],
       }]);
-      setMsg(result.description);
+      setMsg('Adicionado Device com sucesso');
     } else {
       setMsg(result.description);
     }
@@ -145,7 +154,7 @@ const DeviceForm = () => {
             Command:
             <input
               type="text"
-              value={command.command}
+              value={command.command.command}
               required
               onChange={(e) => handleCommandChange(commandIndex, 'command', e.target.value)}
             />
@@ -169,7 +178,7 @@ const DeviceForm = () => {
             />
           </label>
 
-          {command.parameters.map((param, paramIndex) => (
+          {command.command.parameters.map((param, paramIndex) => (
             <div key={paramIndex} className="parameter-section">
               <h4>Parameter {paramIndex + 1}</h4>
               <label>
@@ -193,11 +202,11 @@ const DeviceForm = () => {
             </div>
           ))}
 
-          <button type="button" onClick={() => handleAddParameter(commandIndex)}>Add Parametro</button>
+          <button type="button" onClick={() => handleAddParameter(commandIndex)}>Add Parameter</button>
         </div>
       ))}
 
-      <button type="button" onClick={handleAddCommand}>Add Comando</button>
+      <button type="button" onClick={handleAddCommand}>Add Command</button>
       <button type="submit">Registrar Device</button>
     </form>
   );

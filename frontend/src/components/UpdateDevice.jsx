@@ -26,7 +26,7 @@ const UpdateDevice = () => {
         method: 'GET',
         headers: header,
       };
-      const { device } = await fetchUsers(`device/${Number(id)}`, options);
+      const device = await fetchUsers(`device/${Number(id)}`, options);
       if (device) {
         setLog(true);
         setIdentifier(device.identifier);
@@ -35,7 +35,10 @@ const UpdateDevice = () => {
         setUrl(device.url);
         setCommands(device.commands.map(cmd => ({
           ...cmd,
-          parameters: cmd.parameters.map(param => ({ ...param }))
+          command: {
+            ...cmd.command,
+            parameters: cmd.command.parameters.map(param => ({ ...param }))
+          }
         })));
       }
     };
@@ -44,38 +47,43 @@ const UpdateDevice = () => {
 
   const handleAddCommand = () => {
     setCommands([...commands, {
-      id: null,
       operation: '',
       description: '',
-      command: '',
-      result: '',
+      command: {
+        command: '',
+        parameters: [{ name: '', description: '' }]
+      },
       format: '',
-      parameters: [{ id: null, name: '', description: '', commandId: null }]
+      result: ''
     }]);
   };
 
   const handleCommandChange = (index, field, value) => {
     const newCommands = [...commands];
-    newCommands[index][field] = value;
+    if (field === 'command') {
+      newCommands[index].command.command = value;
+    } else {
+      newCommands[index][field] = value;
+    }
     setCommands(newCommands);
   };
 
   const handleParameterChange = (commandIndex, paramIndex, field, value) => {
     const newCommands = [...commands];
-    newCommands[commandIndex].parameters[paramIndex][field] = value;
+    newCommands[commandIndex].command.parameters[paramIndex][field] = value;
     setCommands(newCommands);
   };
 
   const handleAddParameter = (commandIndex) => {
     const newCommands = [...commands];
-    newCommands[commandIndex].parameters.push({ id: null, name: '', description: '', commandId: null });
+    newCommands[commandIndex].command.parameters.push({ name: '', description: '' });
     setCommands(newCommands);
   };
 
   const validateCommands = () => {
-    return commands.every(command => 
-      command.operation && command.description && command.command && command.result && command.format &&
-      command.parameters.every(param => param.name && param.description)
+    return commands.every(command =>
+      command.operation && command.description && command.command.command && command.result && command.format &&
+      command.command.parameters.every(param => param.name && param.description)
     );
   };
 
@@ -92,7 +100,8 @@ const UpdateDevice = () => {
       description,
       manufacturer,
       url,
-      commands: commands.filter(command => command.operation && command.description && command.command && command.result && command.format)
+      commands: commands.filter(command =>
+        command.operation && command.description && command.command.command && command.result && command.format)
     };
 
     const token = JSON.parse(localStorage.getItem('token'));
@@ -106,13 +115,13 @@ const UpdateDevice = () => {
       body: JSON.stringify(deviceData)
     };
     const result = await fetchUsers(`device/${Number(id)}`, options);
-    if (result.description === 'Requisição realizada com sucesso') {
+    if (!result.description) {
       setIdentifier('');
       setDescription('');
       setManufacturer('');
       setUrl('');
       setCommands([]);
-      setMsg(result.description);
+      setMsg('Requisição realizada com sucesso');
       navigate('/dashboard');
     } else {
       setMsg(result.description);
@@ -164,7 +173,7 @@ const UpdateDevice = () => {
               Command:
               <input
                 type="text"
-                value={command.command}
+                value={command.command.command}
                 onChange={(e) => handleCommandChange(commandIndex, 'command', e.target.value)}
               />
             </label>
@@ -185,7 +194,7 @@ const UpdateDevice = () => {
               />
             </label>
 
-            {command.parameters.map((param, paramIndex) => (
+            {command.command.parameters.map((param, paramIndex) => (
               <div key={paramIndex} className="parameter-section">
                 <h4>Parameter {paramIndex + 1}</h4>
                 <label>

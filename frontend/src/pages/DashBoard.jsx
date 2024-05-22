@@ -21,10 +21,10 @@ const DashBoard = () => {
         method: 'GET',
         headers: header,
       }
-      const { description, devices } = await fetchUsers('device', options);
-      const condition = description === 'Requisição executada com sucesso' && devices.length > 0
+      const devices = await fetchUsers('device', options);
+      const condition = devices.length > 0
       if (condition) {
-        setMessage(description);
+        setMessage('Requisição realizada com sucesso');
         setDevices(devices);
         setLoading(true);
       } else {
