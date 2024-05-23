@@ -4,6 +4,7 @@ import Registered from '../pages/Registered';
 import DashBoard from '../pages/DashBoard';
 import CreateDevice from "../pages/CreateDevice";
 import DeviceUpdate from "../pages/DeviceUpdate";
+import Telnet from "../pages/Telnet";
 
 const Routers = () => {
   return (
@@ -15,6 +16,7 @@ const Routers = () => {
           <Route path="/dashboard" element={<DashBoard />}></Route>
           <Route path="/device" element={<CreateDevice />}></Route>
           <Route path="/device/:id" element={<DeviceUpdate />}></Route>
+          <Route path="/telnet/:id" element={<Telnet />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

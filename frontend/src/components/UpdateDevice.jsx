@@ -115,7 +115,7 @@ const UpdateDevice = () => {
       body: JSON.stringify(deviceData)
     };
     const result = await fetchUsers(`device/${Number(id)}`, options);
-    if (!result.description) {
+    if (result) {
       setIdentifier('');
       setDescription('');
       setManufacturer('');
@@ -134,15 +134,15 @@ const UpdateDevice = () => {
         <h2>Atualizar Device</h2>
         {msg && <p>{msg}</p>}
         <label>
-          Identifier:
+          Identificador:
           <input type="text" value={identifier} onChange={(e) => setIdentifier(e.target.value)} />
         </label>
         <label>
-          Description:
+          Descrição:
           <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
         </label>
         <label>
-          Manufacturer:
+          Manufatura:
           <input type="text" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} />
         </label>
         <label>
@@ -152,9 +152,9 @@ const UpdateDevice = () => {
 
         {commands.map((command, commandIndex) => (
           <div key={commandIndex} className="command-section">
-            <h3>Command {commandIndex + 1}</h3>
+            <h3>Comando {commandIndex + 1}</h3>
             <label>
-              Operation:
+              Operação:
               <input
                 type="text"
                 value={command.operation}
@@ -162,7 +162,7 @@ const UpdateDevice = () => {
               />
             </label>
             <label>
-              Description:
+              Descrição:
               <input
                 type="text"
                 value={command.description}
@@ -170,7 +170,7 @@ const UpdateDevice = () => {
               />
             </label>
             <label>
-              Command:
+              Comando:
               <input
                 type="text"
                 value={command.command.command}
@@ -178,7 +178,7 @@ const UpdateDevice = () => {
               />
             </label>
             <label>
-              Result:
+              Resultado:
               <input
                 type="text"
                 value={command.result}
@@ -186,7 +186,7 @@ const UpdateDevice = () => {
               />
             </label>
             <label>
-              Format:
+              Formato:
               <input
                 type="text"
                 value={command.format}
@@ -196,9 +196,9 @@ const UpdateDevice = () => {
 
             {command.command.parameters.map((param, paramIndex) => (
               <div key={paramIndex} className="parameter-section">
-                <h4>Parameter {paramIndex + 1}</h4>
+                <h4>Parametro {paramIndex + 1}</h4>
                 <label>
-                  Name:
+                  Nome:
                   <input
                     type="text"
                     value={param.name}
@@ -206,7 +206,7 @@ const UpdateDevice = () => {
                   />
                 </label>
                 <label>
-                  Description:
+                  Descrição:
                   <input
                     type="text"
                     value={param.description}
@@ -216,12 +216,12 @@ const UpdateDevice = () => {
               </div>
             ))}
 
-            <button type="button" onClick={() => handleAddParameter(commandIndex)}>Add Parameter</button>
+            <button type="button" onClick={() => handleAddParameter(commandIndex)}>Parametro</button>
           </div>
         ))}
 
-        <button type="button" onClick={handleAddCommand}>Add Command</button>
-        <button type="submit">Registrar Device</button>
+        <button type="button" onClick={handleAddCommand}>Comando</button>
+        <button type="submit">Atualizar Device</button>
       </form> : <h2 className='loading'>Carregando...</h2>}
     </>
   );

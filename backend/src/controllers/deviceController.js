@@ -61,7 +61,6 @@ exports.addDevice = async (req, res) => {
     res.status(201).send();
 
   } catch (error) {
-    console.error(error);
     res.status(500).json({ description: `Erro de servidor: ${error.message}` });
   }
 };

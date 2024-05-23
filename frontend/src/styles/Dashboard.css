@@ -37,9 +37,20 @@
   cursor: pointer;
 }
 
+.edit-telnet{
+  position: absolute;
+  margin-left: 500px;
+  background-color: chartreuse;
+  color: black;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
   .edit-device {
     margin-left: 400px;
+  }
+  .edit-telnet{
+    margin-left: 300px;
   }
 }
 
@@ -47,10 +58,16 @@
   .edit-device {
     margin-left: 350px;
   }
+  .edit-telnet{
+    margin-left: 250px;
+  }
 }
 
 @media screen and (max-width: 500px) {
   .edit-device {
     margin-left: 250px;
+  }
+  .edit-telnet{
+    margin-left: 150px;
   }
 }

@@ -85,9 +85,8 @@ const DeviceForm = () => {
       body: JSON.stringify(deviceData)
     };
 
-    const result = await fetchUsers('device', options);
-
-    if (!result.description) {
+    try {
+      await fetchUsers('device', options);
       setIdentifier('');
       setDescription('');
       setManufacturer('');
@@ -103,8 +102,8 @@ const DeviceForm = () => {
         format: '',
       }]);
       setMsg('Adicionado Device com sucesso');
-    } else {
-      setMsg(result.description);
+    } catch (error) {
+      setMsg(error.message);
     }
   };
 
@@ -113,15 +112,15 @@ const DeviceForm = () => {
       <h2>Registrar Device</h2>
       {msg && <p>{msg}</p>}
       <label>
-        Identifier:
+        Identificador:
         <input type="text" value={identifier} required onChange={(e) => setIdentifier(e.target.value)} />
       </label>
       <label>
-        Description:
+        Descrição:
         <input type="text" value={description} required onChange={(e) => setDescription(e.target.value)} />
       </label>
       <label>
-        Manufacturer:
+        Manufatura:
         <input type="text" value={manufacturer} required onChange={(e) => setManufacturer(e.target.value)} />
       </label>
       <label>
@@ -131,9 +130,9 @@ const DeviceForm = () => {
 
       {commands.map((command, commandIndex) => (
         <div key={commandIndex} className="command-section">
-          <h3>Command {commandIndex + 1}</h3>
+          <h3>Comando {commandIndex + 1}</h3>
           <label>
-            Operation:
+            Operação:
             <input
               type="text"
               value={command.operation}
@@ -142,7 +141,7 @@ const DeviceForm = () => {
             />
           </label>
           <label>
-            Description:
+            Descrição:
             <input
               type="text"
               value={command.description}
@@ -151,7 +150,7 @@ const DeviceForm = () => {
             />
           </label>
           <label>
-            Command:
+            Comando:
             <input
               type="text"
               value={command.command.command}
@@ -160,7 +159,7 @@ const DeviceForm = () => {
             />
           </label>
           <label>
-            Result:
+            Resultado:
             <input
               type="text"
               value={command.result}
@@ -169,7 +168,7 @@ const DeviceForm = () => {
             />
           </label>
           <label>
-            Format:
+            Formato:
             <input
               type="text"
               value={command.format}
@@ -180,9 +179,9 @@ const DeviceForm = () => {
 
           {command.command.parameters.map((param, paramIndex) => (
             <div key={paramIndex} className="parameter-section">
-              <h4>Parameter {paramIndex + 1}</h4>
+              <h4>Parametro {paramIndex + 1}</h4>
               <label>
-                Name:
+                Nome:
                 <input
                   type="text"
                   value={param.name}
@@ -191,7 +190,7 @@ const DeviceForm = () => {
                 />
               </label>
               <label>
-                Description:
+                Descrição:
                 <input
                   type="text"
                   value={param.description}
@@ -202,11 +201,11 @@ const DeviceForm = () => {
             </div>
           ))}
 
-          <button type="button" onClick={() => handleAddParameter(commandIndex)}>Add Parameter</button>
+          <button type="button" onClick={() => handleAddParameter(commandIndex)}>Parametros</button>
         </div>
       ))}
 
-      <button type="button" onClick={handleAddCommand}>Add Command</button>
+      <button type="button" onClick={handleAddCommand}>Comando</button>
       <button type="submit">Registrar Device</button>
     </form>
   );

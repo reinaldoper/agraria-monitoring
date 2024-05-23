@@ -1,5 +1,4 @@
 const prisma = require('../db/prismaCliente');
-const { findOne } = require('./user');
 
 async function createDevice(identifier, description, manufacturer, url, commands) {
   const device = await prisma.device.create({

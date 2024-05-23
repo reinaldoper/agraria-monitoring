@@ -24,7 +24,7 @@ const DashBoard = () => {
       const devices = await fetchUsers('device', options);
       const condition = devices.length > 0
       if (condition) {
-        setMessage('Requisição realizada com sucesso');
+        setMessage('Lista de Devices cadastrados');
         setDevices(devices);
         setLoading(true);
       } else {

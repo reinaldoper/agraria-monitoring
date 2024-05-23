@@ -44,7 +44,8 @@ const DeviceList = ({ devices }) => {
     }
   };
 
-  const handleUpdate = async (identifier) => {
+  const handleUpdateTelnet = async (identifier, num) => {
+    
     const token = JSON.parse(localStorage.getItem('token'));
     const header = {
       'Content-Type': 'application/json',
@@ -56,20 +57,22 @@ const DeviceList = ({ devices }) => {
       headers: header,
     };
     const { message } = await fetchUsers(`device/identifier/${identifier}`, options);
+    const value = num === 1 ? `/device/${message.id}` : `/telnet/${message.id}`;
     if (message) {
-      navigate(`/device/${message.id}`);
+      navigate(value);
     }
   };
 
   return (
     <div className="device-list">
-      <h3>Devices</h3>
+      <h3>Dispositivos:</h3>
       {msg && <p>{msg}</p>}
       {DeviceList.length ? <ul>
         {deviceList.map((device, index) => (
           <li key={index}>
-            Identifier: {device}
-            <button className='edit-device' type="button" onClick={() => handleUpdate(device)}>Editar</button>
+            Identify: {device}
+            <button className='edit-device' type="button" onClick={() => handleUpdateTelnet(device, 1)}>Editar</button>
+            <button className='edit-telnet' type="button" onClick={() => handleUpdateTelnet(device, 2)}>Telnet</button>
             <button type="button" className='remove-device' onClick={() => handleIdentifier(device)}>Remover</button>
           </li>
         ))}
