@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/SendCommands.css';
 import { fetchUsers } from '../service/fetchApi';
-import { parseTelnetResponse } from '../utils/formaterResponse';
+import stripAnci from 'strip-ansi';
 
 
 const DeviceDetail = () => {
@@ -146,11 +146,7 @@ const DeviceDetail = () => {
       {response && (
         <div className="response">
           <h3>Resposta do Envio:</h3>
-          <ul>
-            {parseTelnetResponse(response).map((file, index) => (
-              <li key={index}>{file}</li>
-            ))}
-          </ul>
+          {stripAnci(response)}
         </div>
       )}
     </div>

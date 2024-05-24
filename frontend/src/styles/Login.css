@@ -2,6 +2,9 @@
   max-width: 300px;
   margin: 0 auto;
   margin-top: 10%;
+  border: none;
+  border-radius: 5px;
+  padding: 40px 30px;
 }
 
 .iot-msg{
@@ -31,4 +34,8 @@
 
 .login p {
   font-size: 14px;
+}
+
+.login h2 {
+  color: black;
 }

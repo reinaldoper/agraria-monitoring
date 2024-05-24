@@ -39,11 +39,11 @@ const sendCommand = async (deviceUrl, command, params) => {
 
     await connection.send(password, { waitfor: telnetParams.shellPrompt })
     const response = await connection.send(fullCommand);
-    const normalizedCommand = fullCommand.trim();
+  
     const result = response.split('\n').filter(line => line.trim() !== fullCommand);
     
 
-    return result.toString("utf8");
+    return result.toString("utf-8");
   } catch (err) {
     return `Erro no envio do comando: ${err.message}`;
   } finally {
