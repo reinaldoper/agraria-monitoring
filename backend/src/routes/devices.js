@@ -6,6 +6,7 @@ const validateId = require('../middlewares/validateId');
 const auth = require('../middlewares/auth');
 const validateIdentifier = require('../middlewares/validateIdentifier');
 
+
 router.get('/', auth, deviceController.getDevices);
 router.post('/', deviceMiddleware, deviceController.addDevice);
 router.put('/:id', auth, validateId, deviceMiddleware, deviceController.updateDevice);

@@ -35,11 +35,11 @@ const DeviceList = ({ devices }) => {
         method: 'DELETE',
         headers: header1,
       };
-      const { description } = await fetchUsers(`device/${message.id}`, options1);
-      if (description === 'Requisição realizada com sucesso') {
+      const result = await fetchUsers(`device/${message.id}`, options1);
+      if (result) {
         setDeviceList((prevList) => prevList.filter((device) => device !== identifier));
       } else {
-        setMsg(description);
+        setMsg(result.description);
       }
     }
   };
@@ -70,7 +70,7 @@ const DeviceList = ({ devices }) => {
       {DeviceList.length ? <ul>
         {deviceList.map((device, index) => (
           <li key={index}>
-            Identify: {device}
+            {device}
             <button className='edit-device' type="button" onClick={() => handleUpdateTelnet(device, 1)}>Editar</button>
             <button className='edit-telnet' type="button" onClick={() => handleUpdateTelnet(device, 2)}>Telnet</button>
             <button type="button" className='remove-device' onClick={() => handleIdentifier(device)}>Remover</button>

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/SendCommands.css';
 import { fetchUsers } from '../service/fetchApi';
-import ansiRegex from 'ansi-regex';
+import { parseTelnetResponse } from '../utils/formaterResponse';
+
 
 const DeviceDetail = () => {
   const [device, setDevice] = useState(null);
@@ -12,6 +13,7 @@ const DeviceDetail = () => {
   const [params, setParams] = useState('');
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
+  const [log, setLog] = useState('');
 
   const { id } = useParams();
 
@@ -41,35 +43,10 @@ const DeviceDetail = () => {
     fetchDevice();
   }, [id]);
 
-  const removeANSIEscapeSequences = (text) => {
-      return text.replace(ansiRegex(), '');
-  };
-
-  const parseTelnetResponse = (response) => {
-    const cleanedResponse = removeANSIEscapeSequences(response);
-    const lines = cleanedResponse.split('\n');
-    const nonEmptyLines = lines.filter((line) => line.trim() !== '');
-    const filesArray = [];
-    nonEmptyLines.forEach((line) => {
-      const words = line.split(' ');
-      const cleanedWords = words.filter((word) => word.trim() !== '' && word.trim() !== '$');
-      cleanedWords.forEach((word) => {
-        const cleanedWord = word.replace(/[$.]/g, '');
-        filesArray.push(cleanedWord);
-      });
-    });
-
-    return filesArray;
-  };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!command || !deviceUrl || params.length === 0) {
-      setError('Por favor, preencha todos os campos.');
-      return;
-    }
+    setLog('Carregando...')
     const token = JSON.parse(localStorage.getItem('token'));
     const options = {
       method: 'POST',
@@ -84,6 +61,7 @@ const DeviceDetail = () => {
       })
     };
     const { description } = await fetchUsers('commands/send', options);
+    setLog('')
     setResponse(description);
     setError('')
   };
@@ -102,7 +80,7 @@ const DeviceDetail = () => {
       <div className="device-detail" key={device.id}>
         <div>
           <h4>Device</h4>
-          <li><strong>Identifier:</strong> {device.identifier}</li>
+          <li><strong>Identificador:</strong> {device.identifier}</li>
           <li><strong>Descrição:</strong> {device.description}</li>
           <li><strong>Fabricante:</strong> {device.manufacturer}</li>
           <li><strong>URL:</strong> {device.url}</li>
@@ -118,8 +96,8 @@ const DeviceDetail = () => {
               <h4>Parametros</h4>
               {cmd.command.parameters.length && cmd.command.parameters.map((param, index) => (
                 <div key={index}>
-                  <li>{param.description}</li>
-                  <li>{param.name}</li>
+                  <li>Descricao: {param.description}</li>
+                  <li>Nome: {param.name}</li>
                 </div>
               ))}
             </div>
@@ -162,6 +140,8 @@ const DeviceDetail = () => {
         <button type="submit">Enviar</button>
         {error && <div className="error">{error}</div>}
       </form>
+
+      <h2 className='form-command'>{log}</h2>
 
       {response && (
         <div className="response">

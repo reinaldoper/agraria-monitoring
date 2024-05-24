@@ -4,6 +4,13 @@
   margin-top: 10%;
 }
 
+.iot-msg{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  text-shadow: #ccc 2px 0 15px;
+}
+
 .login form {
   display: flex;
   flex-direction: column;

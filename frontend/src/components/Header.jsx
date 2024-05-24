@@ -14,7 +14,7 @@ const Header = () => {
       <div className="content-header">
         <h2>Monitoramento Agrária </h2>
         <Link to="/">Login</Link>
-        <Link to="/device">Device</Link>
+        <Link to="/device">AddDevice</Link>
         <Link to="/dashboard">DashBoard</Link>
         <span>{user ? `Bem vindo: ${user.Username}` : ''}</span>
       </div>

@@ -12,8 +12,11 @@ exports.getDevices = async (req, res) => {
 exports.deleteDevice = async (req, res) => {
   try {
     const { id } = req.params;
-    await device.deleteDevice(Number(id));
-    res.status(200).json({ description: "Requisição realizada com sucesso" });
+    const deleted = await device.getDeviceById(Number(id));
+
+    if(deleted) await device.deleteDevice(Number(id));
+
+    res.status(200).json(deleted);
   } catch (error) {
     console.error(error);
     res.status(404).json({ description: 'Dispositivo não encontrado' });
