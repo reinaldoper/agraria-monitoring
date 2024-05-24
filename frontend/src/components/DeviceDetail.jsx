@@ -88,16 +88,16 @@ const DeviceDetail = () => {
         {device.commands.length && device.commands.map(cmd => (
           <div key={cmd.id}>
             <h4>Comandos</h4>
-            <li>Comando: {cmd.command.command}</li>
-            <li>Descricao: {cmd.description}</li>
-            <li>Formato: {cmd.format}</li>
-            <li>Resultado: {cmd.result}</li>
+            <li><strong>Comando:</strong> {cmd.command.command}</li>
+            <li><strong>Descricao:</strong> {cmd.description}</li>
+            <li><strong>Formato:</strong> {cmd.format}</li>
+            <li><strong>Resultado:</strong> {cmd.result}</li>
             <div>
               <h4>Parametros</h4>
               {cmd.command.parameters.length && cmd.command.parameters.map((param, index) => (
                 <div key={index}>
-                  <li>Descricao: {param.description}</li>
-                  <li>Nome: {param.name}</li>
+                  <li><strong>Descricao:</strong> {param.description}</li>
+                  <li><strong>Nome:</strong> {param.name}</li>
                 </div>
               ))}
             </div>

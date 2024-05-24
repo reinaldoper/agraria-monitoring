@@ -21,7 +21,7 @@ Aplicação web para monitoramento de dispositivos IoT em tempo real, com autent
 
 1. **Autenticação JWT na API**.
 2. **Filtro por usuário nos dispositivos**.
-3. **Notificações via WebSocket**.
+3. **Notificações via Telnet**.
 4. **Paginação e ordenação na listagem de dispositivos**.
 
 ### Estrutura do Projeto:
@@ -55,9 +55,8 @@ frontend/
 - styles/: Estilos globais ou compartilhados.
 - Routers/: Rotas da aplicação.
 - environment/: Variaveis.
-- tests/: Todos os testes da aplicação.
+- tests/: Em fase de desenvolvimento.
 - utils/: Retorna URL da aplicação.
-- tsconfig.json: Configurações TypeScript.
 - package.json: Dependências e scripts do projeto.
 
 ## Como Rodar o Projeto

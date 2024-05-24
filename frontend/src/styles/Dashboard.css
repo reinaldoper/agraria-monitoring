@@ -28,10 +28,15 @@
   background-color: crimson;
   cursor: pointer;
 }
+.w3-center{
+  text-align: center;
+  margin-top: 1%;
+  font-size: larger;
+}
 
 .edit-device{
   position: absolute;
-  margin-left: 600px;
+  margin-left: 587px;
   background-color: chartreuse;
   color: black;
   cursor: pointer;

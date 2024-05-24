@@ -70,10 +70,10 @@ const DeviceList = ({ devices }) => {
       {DeviceList.length ? <ul>
         {deviceList.map((device, index) => (
           <li key={index}>
-            {device}
-            <button className='edit-device' type="button" onClick={() => handleUpdateTelnet(device, 1)}>Editar</button>
-            <button className='edit-telnet' type="button" onClick={() => handleUpdateTelnet(device, 2)}>Telnet</button>
-            <button type="button" className='remove-device' onClick={() => handleIdentifier(device)}>Remover</button>
+            <div className='w3-center'>{device}</div>
+            <button className='edit-device w3-btn w3-orange w3-large' type="button" onClick={() => handleUpdateTelnet(device, 1)}>Editar</button>
+            <button className='edit-telnet w3-btn w3-blue w3-large' type="button" onClick={() => handleUpdateTelnet(device, 2)}>Telnet</button>
+            <button type="button" className='w3-btn w3-red w3-large' onClick={() => handleIdentifier(device)}>Remover</button>
           </li>
         ))}
       </ul> : <p>Carregando...</p>}

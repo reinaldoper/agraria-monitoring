@@ -21,7 +21,12 @@
 .content-header a{
   text-decoration: none;
   color: whitesmoke;
-  background-color: black;
+  background-color: #282A35;
   padding: 10px;
   border-radius: 5px;
+  margin-left: 10px;
+}
+
+.content-header a:hover{
+  background-color: #04AA6D;
 }
