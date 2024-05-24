@@ -24,6 +24,42 @@ Aplicação web para monitoramento de dispositivos IoT em tempo real, com autent
 3. **Notificações via WebSocket**.
 4. **Paginação e ordenação na listagem de dispositivos**.
 
+### Estrutura do Projeto:
+
+- O projeto segue uma estrutura organizada para garantir clareza e manutenibilidade do código. 
+- Abaixo está uma visão geral da estrutura de diretórios do frontend:
+
+```shell
+frontend/
+|-- public/
+|-- src/
+|   |-- assets/
+|   |-- environment/
+|   |-- components/
+|   |-- pages/
+|   |-- Routers/
+|   |-- service/
+|   |-- styles/
+|   |-- utils/
+|   |-- _tests_/
+|-- main.tsx
+|-- tsconfig.json
+|-- package.json
+|-- ...
+```
+
+- src/: Contém os principais códigos fonte do projeto.
+- components/: Componentes React reutilizáveis.
+- pages/: Páginas da aplicação.
+- service/: Serviços para integração com API ou lógica de negócios.
+- styles/: Estilos globais ou compartilhados.
+- Routers/: Rotas da aplicação.
+- environment/: Variaveis.
+- tests/: Todos os testes da aplicação.
+- utils/: Retorna URL da aplicação.
+- tsconfig.json: Configurações TypeScript.
+- package.json: Dependências e scripts do projeto.
+
 ## Como Rodar o Projeto
 
 1. Clone o repositório

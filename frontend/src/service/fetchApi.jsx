@@ -1,4 +1,4 @@
-const URL = 'http://localhost:3001'
+import { URL } from "../environment/url"
 
 export const fetchUsers = async (path, options) => {
     const response = await fetch(`${URL}/${path}`, options)
