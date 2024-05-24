@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { fetchUsers } from '../service/fetchApi';
+import { fetchDevice } from '../service/fetchApi';
 import '../styles/DeviceForm.css';
 
 const DeviceForm = () => {
@@ -63,11 +63,12 @@ const DeviceForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!validateCommands()) {
       setMsg('Todos os campos dos comandos e parâmetros devem ser preenchidos.');
       return;
     }
-
+  
     const deviceData = {
       identifier,
       description,
@@ -77,35 +78,40 @@ const DeviceForm = () => {
         command.operation && command.description && command.command.command && command.result && command.format)
     };
 
+    const header = {
+      'Content-Type': 'application/json',
+    };
+  
     const options = {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: header,
       body: JSON.stringify(deviceData)
     };
-
+  
     try {
-      await fetchUsers('device', options);
-      setIdentifier('');
-      setDescription('');
-      setManufacturer('');
-      setUrl('');
-      setCommands([{
-        operation: '',
-        description: '',
-        command: {
-          command: '',
-          parameters: [{ name: '', description: '' }]
-        },
-        result: '',
-        format: '',
-      }]);
-      setMsg('Adicionado Device com sucesso');
+      await fetchDevice('device', options);
+      
+        setIdentifier('');
+        setDescription('');
+        setManufacturer('');
+        setUrl('');
+        setCommands([{
+          operation: '',
+          description: '',
+          command: {
+            command: '',
+            parameters: [{ name: '', description: '' }]
+          },
+          result: '',
+          format: '',
+        }]);
+        setMsg('Adicionado Device com sucesso');
+     
     } catch (error) {
-      setMsg(error.message);
+      setMsg(`Erro: ${error.message}`);
     }
   };
+  
 
   return (
     <form className="device-form" onSubmit={handleSubmit}>

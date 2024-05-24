@@ -57,9 +57,8 @@ exports.updateDevice = async (req, res) => {
 };
 
 exports.addDevice = async (req, res) => {
-  const { identifier, description, manufacturer, url, commands } = req.body;
   try {
-    const resultDevice = await device.createDevice(identifier, description, manufacturer, url, commands);
+    const resultDevice = await device.createDevice(req.body);
     res.set("Location", `/device/${resultDevice.id}`)
     res.status(201).send();
 

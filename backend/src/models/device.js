@@ -1,31 +1,30 @@
 const prisma = require('../db/prismaCliente');
 
-async function createDevice(identifier, description, manufacturer, url, commands) {
+async function createDevice(data) {
   const device = await prisma.device.create({
     data: {
-      identifier,
-      description,
-      manufacturer,
-      url,
+      identifier: data.identifier,
+      description: data.description,
+      manufacturer: data.manufacturer,
+      url: data.url,
       commands: {
-        create: commands.map(cmd => ({
-          operation: cmd.operation,
-          description: cmd.description,
-          command: {
-            create: {
-              command: cmd.command.command,
-              parameters: {
-                create: cmd.command.parameters.map(param => ({
-                  name: param.name,
-                  description: param.description,
-                })),
-              },
-            }
-          },
-          result: cmd.result,
-          format: cmd.format,
-        })),
-      },
+        create: data.commands.map(command => {
+          return {
+            operation: command.operation,
+            description: command.description,
+            command: {
+              create: {
+                command: command.command.command,
+                parameters: {
+                  create: command.command.parameters
+                }
+              }
+            },
+            result: command.result,
+            format: command.format
+          };
+        })
+      }
     },
     include: {
       commands: {
