@@ -13,13 +13,14 @@ exports.deleteDevice = async (req, res) => {
   try {
     const { id } = req.params;
     const deleted = await device.getDeviceById(Number(id));
-
-    if(deleted) await device.deleteDevice(Number(id));
-
-    res.status(200).json(deleted);
+    if (deleted) {
+      await device.deleteDevice(Number(id));
+      res.status(200).json(deleted);
+    } else {
+      res.status(404).json({ description: 'Dispositivo não encontrado' });
+    }
   } catch (error) {
-    console.error(error);
-    res.status(404).json({ description: 'Dispositivo não encontrado' });
+    res.status(500).json({ description: error.message });
   }
 };
 
@@ -38,11 +39,11 @@ exports.getDeviceById = async (req, res) => {
     const { id } = req.params;
     const deviceById = await device.getDeviceById(Number(id));
 
-    if(!deviceById) throw new Error('Dispositivo não encontrado')
+    if (!deviceById) throw new Error('Dispositivo não encontrado')
 
     res.status(200).json(deviceById);
   } catch (error) {
-    res.status(404).json({ description: error.message});
+    res.status(404).json({ description: error.message });
   }
 };
 
