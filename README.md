@@ -86,6 +86,7 @@ frontend/
 4. Atualize as migrações do Banco de dados
 
    ```shell
+   cd backend
    npx prisma migrate dev
    npx prisma migrate deploy
    ```
