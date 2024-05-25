@@ -24,11 +24,11 @@ const DashBoard = () => {
       const devices = await fetchUsers('device', options);
       const condition = devices.length > 0
       if (condition) {
-        setMessage('Lista de Devices cadastrados');
+        setMessage('Lista de dispositivos cadastrados');
         setDevices(devices);
         setLoading(true);
       } else {
-        setError("Você não tem devices cadastrados");
+        setError("Você não tem dispositivos cadastrados");
         setLoading(false);
       }
 
@@ -40,7 +40,7 @@ const DashBoard = () => {
     <>
       <Header />
       <div className="dashboard">
-        <h2>Dashboard</h2>
+        <h2>Painel</h2>
         {devices.length > 0 && loading ? <div>
           <h2>{msg}</h2>
           <DeviceList devices={devices} />
