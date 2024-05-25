@@ -15,8 +15,8 @@ const Header = () => {
         <h2>Monitoramento Agrária </h2>
         <div>
           <Link to="/">Login</Link>
-          <Link to="/device">AddDevice</Link>
-          <Link to="/dashboard">DashBoard</Link>
+          <Link to="/device">AddDispositivos</Link>
+          <Link to="/dashboard">Painel</Link>
         </div>
         <span className='fa fa-male'>{user ? ` Bem vindo: ${user.Username}` : ''}</span>
       </div>

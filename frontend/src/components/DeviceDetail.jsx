@@ -79,7 +79,7 @@ const DeviceDetail = () => {
       <h1 className='form-command'>Detalhes do Dispositivo</h1>
       <div className="device-detail" key={device.id}>
         <div>
-          <h4>Device</h4>
+          <h4>Dispositivos</h4>
           <li><strong>Identificador:</strong> {device.identifier}</li>
           <li><strong>Descrição:</strong> {device.description}</li>
           <li><strong>Fabricante:</strong> {device.manufacturer}</li>

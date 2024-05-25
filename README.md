@@ -19,9 +19,9 @@ Aplicação web para monitoramento de dispositivos IoT em tempo real, com autent
 
 ## Sugestões de Melhorias
 
-1. **Autenticação JWT na API**.
+1. **Autenticação JWT na API para todas as rotas**.
 2. **Filtro por usuário nos dispositivos**.
-3. **Notificações via Telnet**.
+3. **Notificações via WebSocket**.
 4. **Paginação e ordenação na listagem de dispositivos**.
 
 ### Estrutura do Projeto:
