@@ -10,7 +10,7 @@ const auth = async (req, res, next) => {
     const decoded = jwt.verify(authHeader, 'secretKey');
     const user = await User.findOne(Number(decoded.id));
     if (!user) {
-      return res.status(401).json({ description: "A solicitação não foi realizada pelo proprietário do dispositivo" });
+      return res.status(401).json({ description: "Usuário não encontrado" });
     }
     req.user = user;
     next();

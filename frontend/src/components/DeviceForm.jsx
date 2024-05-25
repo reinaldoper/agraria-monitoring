@@ -68,12 +68,16 @@ const DeviceForm = () => {
       setMsg('Todos os campos dos comandos e parâmetros devem ser preenchidos.');
       return;
     }
+
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
   
     const deviceData = {
       identifier,
       description,
       manufacturer,
       url,
+      userId: user.Id,
       commands: commands.filter(command =>
         command.operation && command.description && command.command.command && command.result && command.format)
     };

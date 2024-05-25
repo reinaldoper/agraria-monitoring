@@ -7,6 +7,7 @@ async function createDevice(data) {
       description: data.description,
       manufacturer: data.manufacturer,
       url: data.url,
+      userId: data.userId,
       commands: {
         create: data.commands.map(command => {
           return {

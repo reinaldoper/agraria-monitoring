@@ -12,12 +12,18 @@ exports.getDevices = async (req, res) => {
 exports.deleteDevice = async (req, res) => {
   try {
     const { id } = req.params;
+    const user = req.user;
+
     const deleted = await device.getDeviceById(Number(id));
-    if (deleted) {
-      await device.deleteDevice(Number(id));
-      res.status(200).json(deleted);
+    if (deleted.userId === user.id) {
+      if (deleted) {
+        await device.deleteDevice(Number(id));
+        res.status(200).json(deleted);
+      } else {
+        res.status(404).json({ description: 'Dispositivo não encontrado' });
+      }
     } else {
-      res.status(404).json({ description: 'Dispositivo não encontrado' });
+      res.status(401).json({ description: 'A solicitação não foi realizada pelo proprietário do dispositivo' });
     }
   } catch (error) {
     res.status(500).json({ description: error.message });

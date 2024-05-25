@@ -36,7 +36,8 @@ const DeviceList = ({ devices }) => {
         headers: header1,
       };
       const result = await fetchUsers(`device/${message.id}`, options1);
-      if (result) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (result.userId === user.Id) {
         setDeviceList((prevList) => prevList.filter((device) => device !== identifier));
       } else {
         setMsg(result.description);
